@@ -1,0 +1,2 @@
+I printed the lines "I am printing" within the mpmain() function of the main.c file. This is because the mpmain() function prints information when xv6 is first booted up, so I added another print, as I knew that that would print from the kernel space, as you cannot access main.o in the user space of the kernel. 
+
