@@ -42,9 +42,29 @@ int main(int argc, char * argv[]) {
   struct timeval start, end, diff;
   
   // TODO: Add you implementation here
+  pid_t pid = fork();
 
+  if (pid < 0){
+	  printf("did not work");
+  } else if (pid == 0){
+  	execvp(argv[1], &argv[1]);
+	//exit("execlp");
+	//gettimeofday(&end, NULL);
+	//timeval_subtract(&diff, &end, &start);
+  } else {
+	gettimeofday(&start, NULL);
+  	printf("Parent %ld creating child %ld\n", getpid(), pid);
+
+	int status;
+	waitpid(pid, &status, 0);
+	if(status != 0){
+		printf("Command %c does not exist.\n", argv[1]);
+	}
+	gettimeofday(&end, NULL);
+	timeval_subtract(&diff, &end, &start);
+	
   // Use the following print statement to output the reslts once you've calcualted the time of execution (i.e., diff)
   printf("Run Time: %ld.%04ld (s)\n", diff.tv_sec, diff.tv_usec/1000);
-  
+  }
   return 0;
 }
