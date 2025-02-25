@@ -15,14 +15,13 @@ int main(int argc, char * argv[]) {
 
     close(read);
 
-    int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-
     pid_t pid = fork();
 
     if (pid < 0){
         printf("did not work");
     } else if (pid == 0){
         printf("IN CHILD: pid=%ld\n", getpid());
+        int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         dup2(write, 1);
         close(write);
         execvp(argv[1], &argv[1]);
@@ -31,8 +30,6 @@ int main(int argc, char * argv[]) {
     } else {
         int status;
         waitpid(pid, &status, 0);
-        dup2(1, write);
-        close(write);
         if(status != 0){
             printf("Command %c does not exist.\n", argv[1]);
         }
