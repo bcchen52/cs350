@@ -25,6 +25,6 @@ int main(int argc, char * argv[]) {
             printf("Command %c does not exist.\n", argv[1]);
         }
         printf("Successfully waited for child %ld\n", pid);
-
+    }
     return 0;
 }
