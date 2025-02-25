@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include <fcntl.h> 
 
-#define INPUT_FILE "./input/if1"
+#define INPUT_FILE "./input/if2"
 
 int main(int argc, char * argv[]) {
 
@@ -23,6 +23,8 @@ int main(int argc, char * argv[]) {
         printf("IN CHILD: pid=%ld\n", getpid());
         fflush(stdout);
         int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        //this does not work if u alr have result.txt without the perms
+        
         if (dup2(write, 1) == -1) {  
             perror("dup2 failed");
             exit(1);
