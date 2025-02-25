@@ -24,6 +24,8 @@ int main(int argc, char * argv[]) {
         int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
         dup2(write, 1);
         close(write);
+        fflush(stdout);
+
         execvp(argv[1], &argv[1]);
         printf("Failed execution");
         exit(1);
