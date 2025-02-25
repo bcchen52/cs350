@@ -21,10 +21,13 @@ int main(int argc, char * argv[]) {
         printf("did not work");
     } else if (pid == 0){
         printf("IN CHILD: pid=%ld\n", getpid());
-        int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        dup2(write, 1);
-        close(write);
         fflush(stdout);
+        int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (dup2(write, 1) == -1) {  
+            perror("dup2 failed");
+            exit(1);
+        }
+        close(write);
 
         execvp(argv[1], &argv[1]);
         printf("Failed execution");
