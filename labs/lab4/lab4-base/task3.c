@@ -11,11 +11,11 @@ int main(int argc, char * argv[]) {
 
     int read = open(INPUT_FILE, O_RDONLY);
 
-    dup2(0, read);
+    dup2(read, 0);
 
-    int write = open("result.txt", O_WRONLY);
+    int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC);
 
-    dup2(1, write);
+    dup2(write, 1);
 
     pid_t pid = fork();
 
