@@ -15,7 +15,7 @@ int main(int argc, char * argv[]) {
 
     close(read);
 
-    int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC);
+    int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
     pid_t pid = fork();
 
