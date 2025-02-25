@@ -13,9 +13,13 @@ int main(int argc, char * argv[]) {
 
     dup2(read, 0);
 
-    int write = open("result.txt", O_WRONLY | O_CREAT | O_TRUNC);
+    close(read);
+
+    int write = open("result", O_WRONLY | O_CREAT | O_TRUNC);
 
     dup2(write, 1);
+
+    close(write);
 
     pid_t pid = fork();
 
