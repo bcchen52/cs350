@@ -25,6 +25,7 @@ int main(int argc, char * argv[]) {
         printf("IN CHILD: pid=%ld\n", getpid());
         int write = open("result", O_WRONLY | O_CREAT | O_TRUNC);
         dup2(write, 1);
+        close(write);
         execvp(argv[1], &argv[1]);
         printf("Failed execution");
         exit(1);
