@@ -12,6 +12,7 @@ int main(int argc, char * argv[]) {
     int read = open(INPUT_FILE, O_RDONLY);
 
     dup2(read, 0);
+    //swap stdin to read
 
     close(read);
 
