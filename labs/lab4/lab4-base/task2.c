@@ -11,20 +11,17 @@ int main(int argc, char * argv[]) {
     if (pid < 0){
         printf("did not work");
     } else if (pid == 0){
-        printf("Child %ld", getpid());
+        printf("IN CHILD: pid=%ld\n", getpid());
         execvp(argv[1], &argv[1]);
         printf("Failed execution");
         exit(1);
-      //exit("execlp");
-      //gettimeofday(&end, NULL);
-      //timeval_subtract(&diff, &end, &start);
     } else {
         int status;
         waitpid(pid, &status, 0);
         if(status != 0){
             printf("Command %c does not exist.\n", argv[1]);
         }
-        printf("Successfully waited for child %ld\n", pid);
+        printf("In PARENT: successfully awaited child (pid = %ld)\n", pid);
     }
     return 0;
 }
