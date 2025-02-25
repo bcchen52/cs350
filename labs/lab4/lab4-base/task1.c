@@ -13,7 +13,7 @@ int main(void) {
     } else if (pid == 0){
         //in child
         printf("IN CHILD: pid=%ld\n", getpid());
-        execl("ls", "-l -a");
+        execl("/bin/ls", "ls", "-l -a", (char*)0);
         printf("Failed execution");
         exit(1);
     } else {
