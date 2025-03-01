@@ -11,12 +11,12 @@ int sys_square(void) {
   int num;
   
   if (argint(0, &num) < 0) {  // Retrieve user argument
-      return -1;  // Error handling
+      return -1; 
   }
 
   cprintf("The square of %d is %d\n", num, num * num);  // Print
-  return num * num;  // Return squared value
 }
+
 //shutdown2 done by Megan Eng
 int 
 sys_shutdown2(char * msg){
