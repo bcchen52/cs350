@@ -8,13 +8,8 @@
 #include "proc.h"
 
 int 
-sys_square(void){
-  int num;
-
-	if (argint(0, &num) < 0) {
-    return -1;  
-  }
-
+sys_square(int num){
+  printf(num*num);
   return num * num;
 }
 
