@@ -16,7 +16,7 @@ int sys_square(void) {
 
   cprintf("The square of %d is %d\n", num, num * num);  // Print
 
-  exit();
+  return 1;
 }
 
 //shutdown2 done by Megan Eng
