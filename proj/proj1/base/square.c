@@ -9,7 +9,7 @@ int main(int argc, char * argv[]) {
     //printf("Enter a number: ");
     //scanf("%d", &num);
     if (argc < 2){
-        user_printf(1, "Error");
+        printf(1, "Error");
         exit();
     }
 
