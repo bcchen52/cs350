@@ -11,7 +11,7 @@ int main(int argc, char * argv[]) {
     //printf("Enter a number: ");
     //scanf("%d", &num);
     if (argc < 2){
-        cprintf("Include an int");
+        printf("Include an int");
         exit();
     }
     
