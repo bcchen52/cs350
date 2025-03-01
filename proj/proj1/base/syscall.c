@@ -105,7 +105,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_shutdown(void);
 extern int sys_shutdown2(char * msg);
-extern int sys_square(int out);
+extern int sys_square(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -153,9 +153,7 @@ syscall(void)
     argstr(0, &msg);
     curproc->tf->eax = sys_shutdown2(msg);
     } else if (num == SYS_square) {
-      int arg;
-      argint(0, &arg); // Retrieve argument from user space
-      curproc->tf->eax = sys_square(arg);
+      curproc->tf->eax = sys_square();
     }
     else{
       curproc->tf->eax = syscalls[num]();

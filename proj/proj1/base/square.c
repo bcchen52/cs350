@@ -15,18 +15,19 @@ int main(int argc, char * argv[]) {
         exit();
     }
     
-    if (argv[1] == '\0'){
-        cprintf("Can't be empty");
+    char *str = argv[1];
+    char *endptr;
+
+    // Convert to integer and check validity
+    int num = strtol(str, &endptr, 10);
+    if (*endptr != '\0') {
+        printf("Invalid input\n");
         exit();
     }
-    while (argv[1]) {
-        if (!isdigit(argv[1])){
-            cprintf("Invalid input");
-            exit();
-        }  
-        argv[1]++;
-    }
-    square(argv[1]);
+
+    // Call system call
+    int result = square(num);
+    printf("The square of %d is %d\n", num, result);
     //printf("The square of %d is %d\n", num, result);
     exit();
 }

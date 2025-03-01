@@ -7,11 +7,16 @@
 #include "mmu.h"
 #include "proc.h"
 
-int 
-sys_square(int num){
-  cprintf(num*num);
-}
+int sys_square(void) {  
+  int num;
+  
+  if (argint(0, &num) < 0) {  // Retrieve user argument
+      return -1;  // Error handling
+  }
 
+  cprintf("The square of %d is %d\n", num, num * num);  // Print
+  return num * num;  // Return squared value
+}
 //shutdown2 done by Megan Eng
 int 
 sys_shutdown2(char * msg){
