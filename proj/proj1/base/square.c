@@ -26,7 +26,7 @@ int main(int argc, char * argv[]) {
         }  
         argv[1]++;
     }
-    int result = square(argv[1]);
+    square(argv[1]);
     //printf("The square of %d is %d\n", num, result);
     exit();
 }
