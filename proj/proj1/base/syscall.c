@@ -131,7 +131,7 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_shutdown]	sys_shutdown,
 [SYS_shutdown2]  sys_shutdown2,
-[SYS_square]  sys_square
+[SYS_square]  sys_square,
 };
 
 /*static int (*syscalls[])(char * msg) = {
