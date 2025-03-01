@@ -9,7 +9,7 @@ int main(int argc, char * argv[]) {
     //printf("Enter a number: ");
     //scanf("%d", &num);
     if (argc < 2){
-        printf(1, "Error");
+        printf(1, "INCLUDE INTEGER\n");
         exit();
     }
 
@@ -27,7 +27,8 @@ int main(int argc, char * argv[]) {
     // Convert characters to numbers
     while (*ptr) {
         if (*ptr < '0' || *ptr > '9') {
-            return 0;  
+            printf(1, "USE PROPER INTEGER\n");
+            exit(); 
         }
         num = num * 10 + (*ptr - '0');  // Convert character to integer
         ptr++;
