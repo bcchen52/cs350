@@ -15,20 +15,21 @@ int main(int argc, char * argv[]) {
 
     int num = 0;
     int sign = 1;
+    char *ptr = argv[1];
 
     // Handle negative numbers
-    if (*argv[1] == '-') {
+    if (*ptr == '-') {
         sign = -1;
-        *argv[1]++;
+        *ptr++;
     }
 
     // Convert characters to numbers
-    while (*argv[1]) {
-        if (*argv[1] < '0' || *argv[1] > '9') {
+    while (*ptr) {
+        if (*ptr < '0' || *ptr > '9') {
             return 0;  // Invalid character → return 0 or handle error
         }
-        num = num * 10 + (*argv[1] - '0');  // Convert character to integer
-        *argv[1]++;
+        num = num * 10 + (*ptr - '0');  // Convert character to integer
+        *ptr++;
     }
 
     num= sign * num;
