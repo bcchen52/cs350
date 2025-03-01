@@ -2,7 +2,6 @@
 #include "stat.h"
 #include "user.h"
 #include <ctype.h>
-#include <stdio.h>
 
 int main(int argc, char * argv[]) {
     
