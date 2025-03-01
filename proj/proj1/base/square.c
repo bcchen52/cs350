@@ -29,7 +29,7 @@ int main(int argc, char * argv[]) {
             return 0;  // Invalid character → return 0 or handle error
         }
         num = num * 10 + (*ptr - '0');  // Convert character to integer
-        *ptr++;
+        ptr++;
     }
 
     num= sign * num;
