@@ -9,7 +9,7 @@
 
 int 
 sys_square(int num){
-  cprintf(num*num);
+  cprintf("%d\n", num * num);
   return num * num;
 }
 
