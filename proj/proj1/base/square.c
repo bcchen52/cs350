@@ -20,7 +20,7 @@ int main(int argc, char * argv[]) {
     // Handle negative numbers
     if (*ptr == '-') {
         sign = -1;
-        *ptr++;
+        ptr++;
     }
 
     // Convert characters to numbers
