@@ -9,9 +9,11 @@ int main(int argc, char * argv[]) {
     //printf("Enter a number: ");
     //scanf("%d", &num);
     if (argc < 2){
+        user_printf(1, "Error");
         exit();
     }
 
+    //convert *char into int, using stdlib has errors
     int num = 0;
     int sign = 1;
     char *ptr = argv[1];
@@ -25,7 +27,7 @@ int main(int argc, char * argv[]) {
     // Convert characters to numbers
     while (*ptr) {
         if (*ptr < '0' || *ptr > '9') {
-            return 0;  // Invalid character → return 0 or handle error
+            return 0;  
         }
         num = num * 10 + (*ptr - '0');  // Convert character to integer
         ptr++;
