@@ -1,0 +1,5 @@
+square() system call
+    - The square command takes an integer and returns the squared value of that integer. 
+    - The user-space error first checks the input (argv[1]) for validity and transforms it into an int. If it isn't valid, an error statement is printed.
+    - Then, the system call is called. 
+    - Within sysproc.c, the sys_square() function then grabs the argument using argint() and prints the result in the terminal.
