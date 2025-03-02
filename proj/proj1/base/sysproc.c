@@ -60,7 +60,7 @@ sys_exit2(void)
 
   if(argint(0, &n) < 0)
     return -1;
-  cprintf("%d", n);
+  cprintf("Exit with status %d\n", n);
 
   exit();
   return 0;  // not reached

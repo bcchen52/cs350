@@ -14,30 +14,11 @@ int main(int argc, char * argv[]) {
     }
 
     //convert *char into int, using stdlib has errors
-    int num = 0;
-    int sign = 1;
-    char *ptr = argv[1];
 
-    // Handle negative numbers
-    if (*ptr == '-') {
-        sign = -1;
-        ptr++;
-    }
-
-    // Convert characters to numbers
-    while (*ptr) {
-        if (*ptr < '0' || *ptr > '9') {
-            printf(1, "USE PROPER INTEGER\n");
-            exit(); 
-        }
-        num = num * 10 + (*ptr - '0');  // Convert character to integer
-        ptr++;
-    }
-
-    num= sign * num;
+    int status = atoi(argv[1]);
 
     // Call system call
-    square(num);
+    square(status);
     //user_printf(1, "The square of %d is %d\n", num, result);
     //printf("The square of %d is %d\n", num, result);
     exit();
