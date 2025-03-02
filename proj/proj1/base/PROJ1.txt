@@ -1,3 +1,15 @@
+=====Project Description=====
+Our project is complete. 
+
+We worked on this project individually and communicated through email to keep our files consistent.
+
+Megan completed shutdown2
+
+Brian completed custom call square
+
+Mikhail completed _
+
+=====Custom System Call Descriptions=====
 square() system call
     - The square command takes an integer and returns the squared value of that integer. 
     - The user-space error first checks the input (argv[1]) for validity and transforms it into an int. If it isn't valid, an error statement is printed.
