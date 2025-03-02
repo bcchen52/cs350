@@ -106,6 +106,7 @@ extern int sys_uptime(void);
 extern int sys_shutdown(void);
 extern int sys_shutdown2(char * msg);
 extern int sys_square(void);
+extern int sys_exit2(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -132,6 +133,7 @@ static int (*syscalls[])(void) = {
 [SYS_shutdown]	sys_shutdown,
 [SYS_shutdown2]  sys_shutdown2,
 [SYS_square]  sys_square,
+[SYS_exit2]  sys_exit2,
 };
 
 /*static int (*syscalls[])(char * msg) = {

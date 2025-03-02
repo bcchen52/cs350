@@ -54,6 +54,19 @@ sys_exit(void)
 }
 
 int
+sys_exit2(void)
+{
+  int n;
+
+  if(argint(0, &n) < 0)
+    return -1;
+  cprintf("%d", n);
+
+  exit();
+  return 0;  // not reached
+}
+
+int
 sys_wait(void)
 {
   return wait();

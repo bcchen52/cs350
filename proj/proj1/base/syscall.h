@@ -23,3 +23,4 @@
 #define SYS_shutdown 22
 #define SYS_shutdown2 23
 #define SYS_square 24
+#define SYS_exit2 25
