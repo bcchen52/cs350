@@ -1,13 +1,13 @@
 =====Project Description=====
-Our project is complete. 
+Our project has two system calls and one unique system call completed.
 
 We worked on this project individually and communicated through email to keep our files consistent.
 
-Megan completed shutdown2
+Megan completed shutdown2.
 
-Brian completed custom call square
+Brian completed exit2 and custom call square.
 
-Mikhail completed _
+Mikail did not answer our group emails. 
 
 =====Custom System Call Descriptions=====
 square() system call
