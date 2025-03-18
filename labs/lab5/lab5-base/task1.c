@@ -20,8 +20,7 @@ int main(void) {
         exit(EXIT_FAILURE);
     }
 
-    pid_t pid_a = fork();
-    pid_t pid_b;
+    pid_t pid_a, pid_b = fork();
 
     if (pid_a < 0){
         printf("did not work");
@@ -31,27 +30,18 @@ int main(void) {
         close(pipefd[0]);               
         dup2(pipefd[1], STDOUT_FILENO); 
         close(pipefd[1]);    
-
-        pid_t pid_b = fork();
-
-        if (pid_b == 0){
-            //in child
-            printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
-            close(pipefd[1]);               
-            dup2(pipefd[0], STDIN_FILENO); 
-            close(pipefd[0]); 
-            execvp(argv2[0], argv2);
-            printf("Failed execution");
-            exit(1);
-        } else { 
-            execvp(argv1[0], argv1);
-            printf("Failed execution");
-            exit(1);
-        }
-
-    } 
-    else {
-
+        execvp(argv1[0], argv1);
+        printf("Failed execution");
+        exit(1);
+    } else if (pid_b == 0){
+        printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
+        close(pipefd[1]);               
+        dup2(pipefd[0], STDIN_FILENO); 
+        close(pipefd[0]); 
+        execvp(argv2[0], argv2);
+        printf("Failed execution");
+        exit(1);
+    } else {
     close(pipefd[0]);
     close(pipefd[1]);
     int status;
