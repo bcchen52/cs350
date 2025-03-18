@@ -32,10 +32,10 @@ int main(void) {
         printf("did not work");
     } else if (pid_a == 0){
         //in child 1
+        printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         close(pipefd[0]);               
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);    
-        printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         execvp(argv1[0], argv1);
         printf("Failed execution");
         exit(1);
@@ -44,6 +44,7 @@ int main(void) {
 
         if (pid_b == 0){
             //in child 2
+            printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
 
             // read pipe1
             close(pipefd[1]);               
@@ -54,7 +55,6 @@ int main(void) {
             close(pipe2fd[0]);               
             dup2(pipe2fd[1], STDOUT_FILENO);
             close(pipe2fd[1]);
-            printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
             execvp(argv2[0], argv2);
             printf("Failed execution");
             exit(1);
@@ -63,10 +63,11 @@ int main(void) {
 
             if (pid_c == 0){
                 // read pip2
+                printf("IN CHILD-3 (PID=%ld): executing command %s \n", getpid(), argv3[0]);
+
                 close(pipe2fd[1]);               
                 dup2(pipe2fd[0], STDIN_FILENO);
                 close(pipe2fd[0]);
-                printf("IN CHILD-3 (PID=%ld): executing command %s \n", getpid(), argv3[0]);
                 execvp(argv3[0], argv3);
                 printf("Failed execution");
                 exit(1);
