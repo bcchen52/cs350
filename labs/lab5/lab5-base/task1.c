@@ -8,7 +8,7 @@
 
 int main(void) {
     char * argv1[] = {"cat", "Makefile", 0};
-    char * argv2[] = {"head", "-4", 0};
+    char * argv2[] = {"head", "-5", 0};
     //char * argv2[] = {"wc", "-l", 0};
     
     setbuf(stdout, NULL);
