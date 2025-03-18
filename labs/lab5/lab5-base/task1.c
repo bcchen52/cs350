@@ -36,10 +36,10 @@ int main(void) {
 
         if (pid_b == 0){
             //in child
+            printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
             close(pipefd[1]);               
             dup2(pipefd[0], STDIN_FILENO); 
             close(pipefd[0]); 
-            printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
             execvp(argv2[0], argv2);
             printf("Failed execution");
             exit(1);
@@ -49,9 +49,8 @@ int main(void) {
             exit(1);
         }
 
-    } else if (pid_a == 0){
-
-    } else {
+    } 
+    else {
 
     close(pipefd[0]);
     close(pipefd[1]);
