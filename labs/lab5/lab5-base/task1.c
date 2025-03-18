@@ -21,6 +21,7 @@ int main(void) {
     }
 
     pid_t pid_a = fork();
+    pid_t pid_b;
 
     if (pid_a < 0){
         printf("did not work");
@@ -30,10 +31,7 @@ int main(void) {
         close(pipefd[0]);               
         dup2(pipefd[1], STDOUT_FILENO); 
         close(pipefd[1]);    
-        execvp(argv1[0], argv1);
-        printf("Failed execution");
-        exit(1);
-    } else {
+
         pid_t pid_b = fork();
 
         if (pid_b == 0){
@@ -45,15 +43,24 @@ int main(void) {
             execvp(argv2[0], argv2);
             printf("Failed execution");
             exit(1);
-        } else {
-            close(pipefd[0]);
-            close(pipefd[1]);
-            int status;
-            waitpid(pid_a, &status, 0);
-            printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
-            waitpid(pid_b, &status, 0);
-            printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
+        } else { 
+            execvp(argv1[0], argv1);
+            printf("Failed execution");
+            exit(1);
         }
+
+    } else if (pid_a == 0){
+
+    } else {
+
+    close(pipefd[0]);
+    close(pipefd[1]);
+    int status;
+    waitpid(pid_a, &status, 0);
+    printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
+    waitpid(pid_b, &status, 0);
+    printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
+
     }  
     return 0;
 }
