@@ -24,7 +24,7 @@ int main(void) {
 
     if (pid_a < 0){
         printf("did not work");
-    } else if (pid_a == 0){
+    } else if (pid_a == 0 && pid_b != 0){
         //in child
         printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         close(pipefd[0]);               
@@ -33,7 +33,7 @@ int main(void) {
         execvp(argv1[0], argv1);
         printf("Failed execution");
         exit(1);
-    } else if (pid_b == 0){
+    } else if (pid_b == 0 && pid_a != 0){
         printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
         close(pipefd[1]);               
         dup2(pipefd[0], STDIN_FILENO); 
