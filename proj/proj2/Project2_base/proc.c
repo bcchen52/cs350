@@ -214,9 +214,9 @@ fork(void)
 
   pid = np->pid;
 
-  //acquire(&ptable.lock);
-  np->state = RUNNABLE;
-  //release(&ptable.lock);
+  acquire(&ptable.lock);
+  np->state = RUNNING;
+  release(&ptable.lock);
   return pid;
 }
 
