@@ -219,7 +219,7 @@ fork(void)
   release(&ptable.lock);
 
   acquire(&ptable.lock);
-  curproc->state = SLEEPING;
+  curproc->state = UNUSED;
   release(&ptable.lock);
 
   return pid;
