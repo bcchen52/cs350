@@ -8,13 +8,12 @@
 
 int main(void) {
     char * argv1[] = {"cat", "Makefile", 0};
-    //char * argv2[] = {"head", "-4", 0};
-    char * argv2[] = {"wc", "-l", 0};
+    char * argv2[] = {"head", "-4", 0};
+    //char * argv2[] = {"wc", "-l", 0};
     
     setbuf(stdout, NULL);
     
     int pipefd[2];
-    int pipe2fd[2];
 
     if (pipe(pipefd) == -1) {
         perror("pipe failed");
@@ -26,9 +25,9 @@ int main(void) {
     if (pid_a < 0){
         printf("did not work");
     } else if (pid_a == 0){
-        //in child 1
+        //in child
         close(pipefd[0]);               
-        dup2(pipefd[1], STDOUT_FILENO);
+        dup2(pipefd[1], STDOUT_FILENO); 
         close(pipefd[1]);    
         printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         execvp(argv1[0], argv1);
@@ -38,9 +37,9 @@ int main(void) {
         pid_t pid_b = fork();
 
         if (pid_b == 0){
-            //in child 2
+            //in child
             close(pipefd[1]);               
-            dup2(pipefd[0], STDIN_FILENO);
+            dup2(pipefd[0], STDIN_FILENO); 
             close(pipefd[0]); 
             printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
             execvp(argv2[0], argv2);
@@ -49,10 +48,11 @@ int main(void) {
         } else {
             close(pipefd[0]);
             close(pipefd[1]);
-            wait(NULL);
+            int status;
+            waitpid(pid_a, &status, 0);
             printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
-            wait(NULL);
-            printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_b);
+            waitpid(pid_b, &status, 0);
+            printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
         }
     }  
     return 0;

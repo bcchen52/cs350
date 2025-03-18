@@ -54,7 +54,6 @@ int main(void) {
             close(pipe2fd[0]);               
             dup2(pipe2fd[1], STDOUT_FILENO);
             close(pipe2fd[1]);
-
             printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
             execvp(argv2[0], argv2);
             printf("Failed execution");
@@ -76,11 +75,12 @@ int main(void) {
                 close(pipefd[1]);
                 close(pipe2fd[0]);
                 close(pipe2fd[1]);
-                wait(NULL);
+                int status;
+                waitpid(pid_a, &status, 0);
                 printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
-                wait(NULL);
+                waitpid(pid_b, &status, 0);
                 printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_b);
-                wait(NULL);
+                waitpid(pid_c, &status, 0);
                 printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_c);
             }
         }
