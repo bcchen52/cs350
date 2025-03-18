@@ -31,7 +31,7 @@ int main(void) {
         dup2(pipefd[1], STDOUT_FILENO);  // Redirect stdout to pipe
         close(pipefd[1]);    
         printf("IN CHILD: pid=%ld\n", getpid());
-        execvp(argv2, (char*)0);
+        execvp(argv1[0], argv1);
         printf("Failed execution");
         exit(1);
     } else {
@@ -42,7 +42,7 @@ int main(void) {
             close(pipefd[1]);               // Close unused write end
             dup2(pipefd[0], STDIN_FILENO);  // Redirect stdin to pipe
             close(pipefd[0]); 
-            execvp(argv2, (char*)0);
+            execvp(argv2[0], argv2);
             printf("Failed execution");
             exit(1);
         } else {
