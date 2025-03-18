@@ -26,9 +26,9 @@ int main(void) {
     if (pid_a < 0){
         printf("did not work");
     } else if (pid_a == 0){
-        //in child
+        //in child 1
         close(pipefd[0]);               
-        dup2(pipefd[1], STDOUT_FILENO);  // Redirect stdout to pipe
+        dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);    
         printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         execvp(argv1[0], argv1);
@@ -38,9 +38,9 @@ int main(void) {
         pid_t pid_b = fork();
 
         if (pid_b == 0){
-            //in child
-            close(pipefd[1]);               // Close unused write end
-            dup2(pipefd[0], STDIN_FILENO);  // Redirect stdin to pipe
+            //in child 2
+            close(pipefd[1]);               
+            dup2(pipefd[0], STDIN_FILENO);
             close(pipefd[0]); 
             printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
             execvp(argv2[0], argv2);
@@ -52,7 +52,7 @@ int main(void) {
             wait(NULL);
             printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
             wait(NULL);
-            printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
+            printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_b);
         }
     }  
     return 0;
