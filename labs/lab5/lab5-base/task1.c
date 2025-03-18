@@ -54,7 +54,6 @@ int main(void) {
             waitpid(pid_b, &status, 0);
             printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
             printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_b);
-
         }
     }  
     return 0;

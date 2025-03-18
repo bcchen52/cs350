@@ -40,9 +40,13 @@ int main(void) {
         printf("Failed execution");
         exit(1);
     } else {
+
+        int status;
+        waitpid(pid_a, &status, 0);
+
         pid_t pid_b = fork();
 
-        if (pid_b == 0){
+        if (pid_b == 0) {
             //in child 2
             printf("IN CHILD-2 (PID=%ld): executing command %s \n", getpid(), argv2[0]);
 
@@ -59,9 +63,12 @@ int main(void) {
             printf("Failed execution");
             exit(1);
         } else {
+
+            waitpid(pid_b, &status, 0);
+
             pid_t pid_c = fork();
 
-            if (pid_c == 0){
+            if (pid_c == 0) {
                 // read pip2
                 printf("IN CHILD-3 (PID=%ld): executing command %s \n", getpid(), argv3[0]);
 
@@ -76,17 +83,13 @@ int main(void) {
                 close(pipefd[1]);
                 close(pipe2fd[0]);
                 close(pipe2fd[1]);
-                int status;
-                waitpid(pid_a, &status, 0);
-                printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
-                waitpid(pid_b, &status, 0);
-                printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_b);
                 waitpid(pid_c, &status, 0);
+                printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_a);
+                printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_b);
                 printf("In PARENT (PID=%ld): successfully reaped child (pid = %ld)\n", getpid(), pid_c);
             }
+            
         }
     }  
-
-
     return 0;
 }
