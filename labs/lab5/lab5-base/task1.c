@@ -14,12 +14,12 @@ int main(void) {
     setbuf(stdout, NULL);
     
     int pipefd[2];
+    int pipe2fd[2];
 
     if (pipe(pipefd) == -1) {
         perror("pipe failed");
         exit(EXIT_FAILURE);
     }
-
 
     pid_t pid_a = fork();
 
