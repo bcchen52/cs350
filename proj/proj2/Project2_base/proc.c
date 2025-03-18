@@ -186,6 +186,10 @@ fork(void)
   struct proc *np;
   struct proc *curproc = myproc();
 
+  acquire(&ptable.lock);
+  curproc->state = SLEEPING;
+  release(&ptable.lock);
+
   // Allocate process.
   if((np = allocproc()) == 0){
     return -1;
@@ -216,6 +220,10 @@ fork(void)
 
   acquire(&ptable.lock);
   np->state = RUNNABLE;
+  release(&ptable.lock);
+
+  acquire(&ptable.lock);
+  curproc->state = RUNNABLE;
   release(&ptable.lock);
   return pid;
 }
