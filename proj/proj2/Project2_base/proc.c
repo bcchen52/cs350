@@ -191,6 +191,10 @@ fork(void)
     return -1;
   }
 
+  acquire(&ptable.lock);
+  np->state = RUNNABLE;
+  release(&ptable.lock);
+
   // Copy process state from proc.
   if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz)) == 0){
     kfree(np->kstack);
@@ -213,14 +217,6 @@ fork(void)
   safestrcpy(np->name, curproc->name, sizeof(curproc->name));
 
   pid = np->pid;
-
-  acquire(&ptable.lock);
-  curproc->state = RUNNABLE;
-  release(&ptable.lock);
-
-  acquire(&ptable.lock);
-  np->state = UNUSED;
-  release(&ptable.lock);
 
   return pid;
 }
