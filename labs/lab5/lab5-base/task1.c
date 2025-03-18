@@ -26,10 +26,10 @@ int main(void) {
         printf("did not work");
     } else if (pid_a == 0){
         //in child
+        printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         close(pipefd[0]);               
         dup2(pipefd[1], STDOUT_FILENO); 
         close(pipefd[1]);    
-        printf("IN CHILD-1 (PID=%ld): executing command %s \n", getpid(), argv1[0]);
         execvp(argv1[0], argv1);
         printf("Failed execution");
         exit(1);
