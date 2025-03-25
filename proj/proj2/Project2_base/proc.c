@@ -13,6 +13,7 @@ struct {
 } ptable;
 
 static struct proc *initproc;
+int rc_winner = 0;
 
 int nextpid = 1;
 int sched_trace_enabled = 0; // ZYF: for OS CPU/process project

@@ -7,10 +7,18 @@
 #include "mmu.h"
 #include "proc.h"
 
+extern int rc_winner;
+
 int
 sys_fork(void)
 {
   return fork();
+}
+
+void
+sys_fork_winner(int winner){
+  //do something
+  winner = winner;
 }
 
 int
