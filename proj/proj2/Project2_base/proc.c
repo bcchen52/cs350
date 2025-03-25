@@ -216,7 +216,9 @@ fork(void)
 
   acquire(&ptable.lock);
   np->state = RUNNABLE;
-  
+  release(&ptable.lock);
+
+  acquire(&ptable.lock);
   yield();
   release(&ptable.lock);
 
