@@ -19,6 +19,7 @@ void
 sys_fork_winner(int winner){
   //do something
   rc_winner = winner;
+  return 0;
 }
 
 int
