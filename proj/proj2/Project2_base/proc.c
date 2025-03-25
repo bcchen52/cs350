@@ -214,12 +214,10 @@ fork(void)
 
   pid = np->pid;
 
-  acquire(&ptable.lock);
-  np->state = RUNNABLE;
-  release(&ptable.lock);
+  yield();
 
   acquire(&ptable.lock);
-  curproc->state = RUNNABLE;
+  np->state = RUNNABLE;
   release(&ptable.lock);
 
   return pid;
