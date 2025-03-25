@@ -219,7 +219,9 @@ fork(void)
   np->state = RUNNABLE;
   release(&ptable.lock);
 
-  yield();
+  if(rc_winner == 1){
+    yield();
+  };
 
   return pid;
 }
