@@ -15,9 +15,12 @@ sys_fork(void)
   return fork();
 }
 
-void
-sys_fork_winner(int winner){
+int
+sys_fork_winner(void){
   //do something
+  int winner;
+  if (argint(0, &winner) < 0)
+    return -1;
   rc_winner = winner;
   return 0;
 }

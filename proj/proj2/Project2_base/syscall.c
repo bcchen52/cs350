@@ -105,7 +105,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_shutdown(void);
 extern int sys_enable_sched_trace(void);
-extern void sys_fork_winner(int winner);
+extern int sys_fork_winner(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
