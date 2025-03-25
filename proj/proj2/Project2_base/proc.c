@@ -218,9 +218,7 @@ fork(void)
   np->state = RUNNABLE;
   release(&ptable.lock);
 
-  acquire(&ptable.lock);
   yield();
-  release(&ptable.lock);
 
   return pid;
 }
