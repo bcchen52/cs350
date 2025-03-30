@@ -683,7 +683,9 @@ transfer_tickets(int pid1, int pid2, int tickets){
     return -2;
   } else {
     to->tickets = to->tickets + tickets;
+    to->stride = 1000/(to->tickets);
     from->tickets = from->tickets - tickets;
+    from->stride = 1000/(from->tickets);
   }
 
   return from->tickets;
