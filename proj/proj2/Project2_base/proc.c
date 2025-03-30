@@ -402,8 +402,8 @@ scheduler(void)
     if(schedule == 1 && ran == 1){
       c->proc = k;
       switchuvm(k);
+      k->pass += k->stride;
       k->state = RUNNING;
-      k->pass = k->pass + k->stride;
       //we edit pass values after it is scheduled to run
 
       swtch(&(c->scheduler), k->context);
