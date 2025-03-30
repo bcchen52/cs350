@@ -640,10 +640,8 @@ tickets(int pid){
   struct proc *p;
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if (p->state == RUNNABLE || p->state == RUNNING) {
-      if(p->pid == pid){
-        return p->tickets;
-      }
+    if(p->pid == pid){
+      return p->tickets;
     }
   }
   return -1;
@@ -661,14 +659,12 @@ transfer_tickets(int pid1, int pid2, int tickets){
   }
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if (p->state == RUNNABLE || p->state == RUNNING) {
-      if(p->pid == pid1){
-        from = p;
-        //will always exist
-      } else if(p->pid == pid2){
-        to = p;
-        found = 1;
-      }
+    if(p->pid == pid1){
+      from = p;
+      //will always exist
+    } else if(p->pid == pid2){
+      to = p;
+      found = 1;
     }
   }
 
