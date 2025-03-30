@@ -629,6 +629,7 @@ reallocate(void){
     if (p->state == RUNNABLE || p->state == RUNNING) {
       p->tickets = 100/count;
       p->stride = 1000/p->tickets;
+      p->pass = 0;
     }
   }
   release(&ptable.lock);
