@@ -40,3 +40,6 @@ int atoi(const char*);
 void shutdown(void);
 void enable_sched_trace(int enable);
 void fork_winner(int winner);
+void set_sched(int set);
+int tickets_owned(int pid);
+int transfer_tickets(int pid, int tickets);

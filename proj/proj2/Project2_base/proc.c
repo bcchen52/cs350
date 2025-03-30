@@ -14,6 +14,7 @@ struct {
 
 static struct proc *initproc;
 int rc_winner = 0;
+int sched = 0;
 
 int nextpid = 1;
 int sched_trace_enabled = 0; // ZYF: for OS CPU/process project
@@ -115,6 +116,11 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
+  //initialize stuff here
+  p->pass = 0;
+  p->tickets = 0;
+  p->stride = 0;
+
   return p;
 }
 
@@ -154,6 +160,8 @@ userinit(void)
   p->state = RUNNABLE;
 
   release(&ptable.lock);
+
+  reallocate();
 }
 
 // Grow current process's memory by n bytes.
@@ -223,6 +231,8 @@ fork(void)
     yield();
   };
 
+  reallocate();
+
   return pid;
 }
 
@@ -270,6 +280,9 @@ exit(void)
   curproc->state = ZOMBIE;
   sched();
   panic("zombie exit");
+
+  //here, we also need to redistribute stuff
+  reallocate();
 }
 
 // Wait for a child process to exit and return its pid.
@@ -337,29 +350,70 @@ scheduler(void)
     // Enable interrupts on this processor.
     sti();
 
-        // Loop over process table looking for process to run.
-        acquire(&ptable.lock);
-        ran = 0;
-        for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-          if(p->state != RUNNABLE)
-            continue;
+    // Loop over process table looking for process to run.
+    acquire(&ptable.lock);
+    ran = 0;
+    int min = 10000000000;
+    int min_pid = 1000000000;
 
-          ran = 1;
-      
-          // Switch to chosen process.  It is the process's job
-          // to release ptable.lock and then reacquire it
-          // before jumping back to us.
-          c->proc = p;
-          switchuvm(p);
-          p->state = RUNNING;
+    //first loop through the pass, buit intiially, all pass will be one, but then,we will look at the individual pids
+    //So, chek for botha t the same time. 
+    struct proc *k;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state != RUNNABLE)
+        continue;
 
-          swtch(&(c->scheduler), p->context);
-          switchkvm();
+      //IF round robin..
+      if(sched == 0){
+        ran = 1;
+  
+        // Switch to chosen process.  It is the process's job
+        // to release ptable.lock and then reacquire it
+        // before jumping back to us.
+        c->proc = p;
+        switchuvm(p);
+        p->state = RUNNING;
 
-          // Process is done running for now.
-          // It should have changed its p->state before coming back.
-          c->proc = 0;
+        swtch(&(c->scheduler), p->context);
+        switchkvm();
+
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+        c->proc = 0;
+      } else {
+        //else if stride scheduler
+        if(p->pass < min){
+          min = p->pass;
+          min_pid = p->pid;
+          k = p;
+        } else if(p->pass == min){
+          if(p->pid < min_pid){
+            min_pid = p->pid;
+            k = p;
+          }
+        }
+
+        //so we know something is there
+        ran = 1;
+      }
     }
+
+    //if stride scheduler...
+    if(sched == 1 && ran == 1){
+      ran = 1;
+      c->proc = p;
+      switchuvm(p);
+      k->state = RUNNING;
+      k->pass = k->pass + k->stride;
+
+      swtch(&(c->scheduler), p->context);
+      switchkvm();
+
+      // Process is done runn ing for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
+    }
+
     release(&ptable.lock);
 
     if (ran == 0){
@@ -559,4 +613,70 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+
+void
+reallocate(void){
+  int count = 0;
+
+  //get count
+  acquire(&ptable.lock);
+  for (struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->state == RUNNABLE || p->state == RUNNING) {
+      count ++;
+    }
+  }
+  for (struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->state == RUNNABLE || p->state == RUNNING) {
+      p->tickets = 100/count;
+      p->stride = 1000/p->tickets;
+    }
+  }
+  release(&ptable.lock);
+}
+
+int
+tickets(int pid){
+  struct proc *p;
+
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->pid == pid){
+      return p->tickets;
+    }
+  }
+  return -1;
+}
+
+int
+transfer_tickets(pid1, pid2, tickets){
+  struct proc *from;
+  struct proc *to;
+  struct proc *p;
+  int found = 0;
+
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->pid == pid1){
+      from = p;
+      //will always exist
+    } else if(p->pid == pid2){
+      to = p;
+      found = 1;
+    }
+  }
+
+  //process not found
+  if(found == 0){
+    return -3;
+  }
+
+  if(tickets < 0){
+    return -1;
+  } else if (tickets > from->tickets-1){
+    return -2;
+  } else {
+    to->tickets = to->tickets + tickets;
+    from->tickets = from->tickets - tickets;
+  }
+
+  return from->tickets;
 }

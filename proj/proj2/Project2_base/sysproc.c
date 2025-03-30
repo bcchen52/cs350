@@ -8,6 +8,8 @@
 #include "proc.h"
 
 extern int rc_winner;
+extern int sched;
+extern struct ptable;
 
 int
 sys_fork(void)
@@ -23,6 +25,39 @@ sys_fork_winner(void){
     return -1;
   rc_winner = winner;
   return 0;
+}
+
+int
+sys_set_sched(void){
+  //do something
+  int s;
+  if (argint(0, &s) < 0)
+    return -1;
+  sched = s;
+  return 0;
+}
+
+int
+sys_tickets_owned(void){
+  //do something
+  int pid;
+  if (argint(0, &pid) < 0)
+    return -1;
+  
+  //the only way to access ptable is in proc.c
+  return tickets(pid);
+}
+
+int
+sys_transfer_tickets(void){
+  int pid2;
+  int tickets;
+  if (argint(0, &pid2) < 0)
+    return -1;
+  if (argint(1, &tickets) < 0)
+    return -1;
+  int pid1 = myproc()->pid;
+  return transfer_tickets(pid1, pid2, tickets);
 }
 
 int
