@@ -355,15 +355,14 @@ scheduler(void)
     ran = 0;
     int min = 1000000000;
     int min_pid = 1000000000;
+    //initialize to large value, adding another 0 causes int overflow
 
-    //first loop through the pass, buit intiially, all pass will be one, but then,we will look at the individual pids
-    //So, chek for botha t the same time. 
     struct proc *k;
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
 
-      //IF round robin..
+      //IF round robin, run first instance of RUNNABLE
       if(schedule == 0){
         ran = 1;
   
@@ -381,12 +380,13 @@ scheduler(void)
         // It should have changed its p->state before coming back.
         c->proc = 0;
       } else {
-        //else if stride scheduler
+        //else if stride scheduler, find the process with the lowest pass value
         if(p->pass < min){
           min = p->pass;
           min_pid = p->pid;
           k = p;
         } else if(p->pass == min){
+          //if pass is equal, then, we go by pid
           if(p->pid < min_pid){
             min_pid = p->pid;
             k = p;
@@ -398,19 +398,18 @@ scheduler(void)
       }
     }
 
-    //if stride scheduler...
+    //if stride scheduler, run either min pass, or min pid if all pass equivalent
     if(schedule == 1 && ran == 1){
       ran = 1;
       c->proc = k;
       switchuvm(k);
       k->state = RUNNING;
       k->pass = k->pass + k->stride;
+      //we edit pass values after it is scheduled to run
 
       swtch(&(c->scheduler), k->context);
       switchkvm();
 
-      // Process is done runn ing for now.
-      // It should have changed its p->state before coming back.
       c->proc = 0;
     }
 
@@ -619,13 +618,14 @@ void
 reallocate(void){
   int count = 0;
 
-  //get count
   acquire(&ptable.lock);
+  //get total N
   for (struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if (p->state == RUNNABLE || p->state == RUNNING) {
       count ++;
     }
   }
+  //then, use that to calculate tickets and stride values
   for (struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if (p->state == RUNNABLE || p->state == RUNNING) {
       p->tickets = 100/count;
@@ -639,6 +639,7 @@ int
 tickets(int pid){
   struct proc *p;
 
+  //find the process. NOTE: it the process does not need to be RUNNING or RUNNABLE to get tickets
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid){
       return p->tickets;
@@ -654,6 +655,7 @@ transfer_tickets(int pid1, int pid2, int tickets){
   struct proc *p;
   int found = 0;
 
+  //edge case, if we calling and transfering process the same, treat it as we don't find
   if(pid1 == pid2){
     return -3;
   }
@@ -661,9 +663,10 @@ transfer_tickets(int pid1, int pid2, int tickets){
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid1){
       from = p;
-      //will always exist
+      //will always exist, we used myproc() in sysproc.c
     } else if(p->pid == pid2){
       to = p;
+      //to check if we find calling process
       found = 1;
     }
   }
@@ -673,7 +676,7 @@ transfer_tickets(int pid1, int pid2, int tickets){
     return -3;
   }
 
-  if(tickets < 0){
+  if(tickets < 0){ 
     return -1;
   } else if (tickets > from->tickets-1){
     return -2;

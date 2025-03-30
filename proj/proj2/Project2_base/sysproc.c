@@ -9,7 +9,6 @@
 
 extern int rc_winner;
 extern int schedule;
-extern struct ptable;
 
 int
 sys_fork(void)
@@ -19,7 +18,7 @@ sys_fork(void)
 
 int
 sys_fork_winner(void){
-  //do something
+  //set the extern int rc_winner used in proc.c
   int winner;
   if (argint(0, &winner) < 0)
     return -1;
@@ -29,7 +28,7 @@ sys_fork_winner(void){
 
 int
 sys_set_sched(void){
-  //do something
+  //set the extern int schedule used in proc.c
   int s;
   if (argint(0, &s) < 0)
     return -1;
@@ -39,12 +38,12 @@ sys_set_sched(void){
 
 int
 sys_tickets_owned(void){
-  //do something
+  //get tickets owned
   int pid;
   if (argint(0, &pid) < 0)
     return -1;
   
-  //the only way to access ptable is in proc.c
+  //to access ptable and procs, we need to do it via proc.c function
   return tickets(pid);
 }
 
@@ -56,7 +55,8 @@ sys_transfer_tickets(void){
     return -1;
   if (argint(1, &tickets) < 0)
     return -1;
-  int pid1 = myproc()->pid;
+  int pid1 = myproc()->pid; //calling process pid
+  //to access ptable and procs, we need to do it via proc.c function
   return transfer_tickets(pid1, pid2, tickets);
 }
 
