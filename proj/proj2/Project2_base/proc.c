@@ -399,7 +399,7 @@ scheduler(void)
     }
 
     //if stride scheduler, run either min pass, or min pid if all pass equivalent
-    if(schedule == 1 && ran == 1){
+    if(schedule == 1 && ran == 1 && k!=0){
       c->proc = k;
       switchuvm(k);
       k->pass += k->stride;
