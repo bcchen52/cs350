@@ -402,7 +402,7 @@ scheduler(void)
     if(schedule == 1 && ran == 1){
       ran = 1;
       c->proc = k;
-      switchuvm(p);
+      switchuvm(k);
       k->state = RUNNING;
       k->pass = k->pass + k->stride;
 
