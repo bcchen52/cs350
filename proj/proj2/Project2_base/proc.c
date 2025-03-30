@@ -357,7 +357,7 @@ scheduler(void)
     int min_pid = 1000000000;
     //initialize to large value, adding another 0 causes int overflow
 
-    struct proc *k;
+    struct proc *k = 0;
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
@@ -400,7 +400,6 @@ scheduler(void)
 
     //if stride scheduler, run either min pass, or min pid if all pass equivalent
     if(schedule == 1 && ran == 1){
-      ran = 1;
       c->proc = k;
       switchuvm(k);
       k->state = RUNNING;
