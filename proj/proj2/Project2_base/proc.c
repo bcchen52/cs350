@@ -14,7 +14,7 @@ struct {
 
 static struct proc *initproc;
 int rc_winner = 0;
-int sched = 0;
+int schedule = 0;
 
 int nextpid = 1;
 int sched_trace_enabled = 0; // ZYF: for OS CPU/process project
@@ -353,7 +353,7 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     ran = 0;
-    int min = 10000000000;
+    int min = 1000000000;
     int min_pid = 1000000000;
 
     //first loop through the pass, buit intiially, all pass will be one, but then,we will look at the individual pids
@@ -364,7 +364,7 @@ scheduler(void)
         continue;
 
       //IF round robin..
-      if(sched == 0){
+      if(schedule == 0){
         ran = 1;
   
         // Switch to chosen process.  It is the process's job
@@ -399,7 +399,7 @@ scheduler(void)
     }
 
     //if stride scheduler...
-    if(sched == 1 && ran == 1){
+    if(schedule == 1 && ran == 1){
       ran = 1;
       c->proc = p;
       switchuvm(p);
@@ -648,7 +648,7 @@ tickets(int pid){
 }
 
 int
-transfer_tickets(pid1, pid2, tickets){
+transfer_tickets(int pid1, int pid2, int tickets){
   struct proc *from;
   struct proc *to;
   struct proc *p;

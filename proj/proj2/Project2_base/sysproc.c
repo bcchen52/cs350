@@ -8,7 +8,7 @@
 #include "proc.h"
 
 extern int rc_winner;
-extern int sched;
+extern int schedule;
 extern struct ptable;
 
 int
@@ -33,7 +33,7 @@ sys_set_sched(void){
   int s;
   if (argint(0, &s) < 0)
     return -1;
-  sched = s;
+  schedule = s;
   return 0;
 }
 

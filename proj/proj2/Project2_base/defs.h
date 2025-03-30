@@ -120,6 +120,9 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+void            reallocate(void);
+int             tickets(int);
+int             transfer_tickets(int, int, int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
