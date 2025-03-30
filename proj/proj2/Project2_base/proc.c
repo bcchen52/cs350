@@ -639,11 +639,13 @@ tickets(int pid){
   struct proc *p;
 
   //find the process. NOTE: it the process does not need to be RUNNING or RUNNABLE to get tickets
+  acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid){
       return p->tickets;
     }
   }
+  release(&ptable.lock);
   return -1;
 }
 
@@ -658,7 +660,7 @@ transfer_tickets(int pid1, int pid2, int tickets){
   if(pid1 == pid2){
     return -3;
   }
-
+  acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->pid == pid1){
       from = p;
@@ -669,6 +671,7 @@ transfer_tickets(int pid1, int pid2, int tickets){
       found = 1;
     }
   }
+  release(&ptable.lock);
 
   //process not found
   if(found == 0){
