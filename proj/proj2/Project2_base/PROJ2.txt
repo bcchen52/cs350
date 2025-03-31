@@ -1,0 +1,6 @@
+For parts 1 and 2, our group met up multiple times to discuss the project and how to implement it. We all implemented our own individual versions, and we are choosing to submit Brian's final version for consistency.  
+
+For part 3, we all individually worked on the questions and collaborated with each other to make sure that we agreed on answers. 
+
+Fully complete implementation.
+
