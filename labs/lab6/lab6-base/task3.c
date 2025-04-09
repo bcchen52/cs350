@@ -41,7 +41,11 @@ int main(void) {
         return 0;
     }
     else if (0 == cpid[1]) { // CHILD-2
+        char buf;
+        close(pipe2[1]); // close write
+        read(pipe2[0], &buf, 1); //open read, wait for pipe2
         printf("CHILD-2 (PID=%d) is running.\n", getpid());
+        close(pipe2[0]);
         exit(0);
     }
     
