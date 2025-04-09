@@ -9,8 +9,12 @@
 int main(void) {
     pid_t cpid[3] = {0}; 
     int ret = 0;   
+    int pipe1[2], pipe2[2];
 
     setbuf(stdout, NULL);
+
+    pipe(pipe1);
+    pipe(pipe2);
 
     cpid[0] = fork();
     if (cpid[0] < 0) {
@@ -18,7 +22,16 @@ int main(void) {
         return 0;
     }
     else if (0 == cpid[0]) { // CHILD-1
+        char buf;
+        close(pipe1[1]); // close write
+        read(pipe1[0], &buf, 1); //open read, wait for pipe1
         printf("CHILD-1 (PID=%d) is running.\n", getpid());
+        close(pipe1[0]);
+
+        //C2 depends on this, so, send a signal through pipe2 to C2
+        close(pipe2[0]);
+        write(pipe2[1], "x", 1);
+        close(pipe2[1]);
         exit(0);
     }
 
@@ -39,7 +52,12 @@ int main(void) {
     }
     else if (0 == cpid[2]) { // CHILD-3
         printf("CHILD-3 (PID=%d) is running.\n", getpid());
-        exit(0);     
+
+        //C1 dependson this, so, send a signal through pipe1 to C1
+        close(pipe1[0]);
+        write(pipe1[1], "x", 1);
+        close(pipe1[1]);
+        exit(0);   
     }
 
     while ((ret = wait(NULL)) > 0)
