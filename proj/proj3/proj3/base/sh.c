@@ -61,9 +61,9 @@ int fork1(void);  // Fork but panics on failure.
 void panic(char*);
 struct cmd *parsecmd(char*);
 
-int id_fg(int pid){
+int id_fg(int p){
   for(int i = 0; i<bg_count; i++){
-    if(bg_table[i].pid == pid){
+    if(bg_table[i].pid == p){
       return 1;
       //if its a background process
     }
@@ -98,7 +98,8 @@ runcmd(struct cmd *cmd)
   //struct listcmd *lcmd;
   //struct pipecmd *pcmd;
   //struct redircmd *rcmd;
-  
+  int pid;
+
   if(cmd == 0)
     exit();
 
@@ -110,7 +111,7 @@ runcmd(struct cmd *cmd)
     ecmd = (struct execcmd*)cmd;
     if(ecmd->argv[0] == 0)
       exit();
-    int pid = getpid();
+    pid = getpid();
     if (id_fg(pid) == 0){
       run_bg();
     }
@@ -159,7 +160,7 @@ runcmd(struct cmd *cmd)
     break;
 
   case BACK:
-    int pid = fork();
+    pid = fork();
     struct backcmd *bcmd = (struct backcmd*)cmd;
     if (pid == 0){
       runcmd(bcmd->cmd);
