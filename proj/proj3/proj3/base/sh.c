@@ -78,7 +78,7 @@ void run_bg(){
       if(reap == 0){
         reap = i;
       }
-      waitpid(bg_table[bg_count].pid ,0);
+      waitpid(bg_table[bg_count].pid);
     } else {
       bg_table[i].fg_count ++;
     }
