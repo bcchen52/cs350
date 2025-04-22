@@ -57,6 +57,11 @@ struct backproc {
 int bg_count = 0;
 struct backproc bg_table[10000];
 
+char *tokens[10];
+int max = 0;
+int location = 0;
+//we start at location, and go backward?
+
 int fork1(void);  // Fork but panics on failure.
 void panic(char*);
 struct cmd *parsecmd(char*);
@@ -215,9 +220,45 @@ main(void)
         printf(2, "cannot cd %s\n", buf+3);
       continue;
     }
+
+    if(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't'){
+      if(buf[5] == "p"){
+        for(int i = 0; i<max; i++){
+          int new_location = location-i;
+          if(new_location < 0){
+            new_location = 10 - new_location;
+          }
+          printf("%s", tokens[new_location]);
+        }
+      } else if (buf[6] == '0'){ //assume this is 0
+        int new_location = location + 9;
+        if(new_location > 9){
+          new_location = new_location - 9;
+        }
+        printf("%s", tokens[new_location]);
+      } 
+      
+      //if 10
+
+      continue;
+    }
     if(fork1() == 0)
       runcmd(parsecmd(buf));
     wait();
+
+    if(max < 10){
+      max++;
+    };
+    tokens[location] = malloc(strlen(buf) + 1);
+    strcpy(tokens[location], buf);
+    printf("%s", tokens[location]);
+    if(location<9){
+      location++;
+    } else {
+      location = 0;
+    }
+    //loop from location backward
+  
   }
   exit();
 }
