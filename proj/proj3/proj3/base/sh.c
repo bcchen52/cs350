@@ -229,7 +229,7 @@ main(void)
           if(new_location < 0){
             new_location = 10 - new_location;
           }
-          printf(1, "%d = %s\n", i+1, tokens[new_location]);
+          printf(1, "Previous command %d: %s", i+1, tokens[new_location]);
         }
       } else if (buf[6] == '0'){ //assume this is 0
         if (buf[5] == '1'){
@@ -243,7 +243,7 @@ main(void)
         }
       } else if (buf[5] >= '0' && buf[5] <= '9'){
         int pos = buf[5] - '0';
-        if(pos < max){
+        if(pos <= max){
           int new_location = location + 9;
           if(new_location > 9){
             new_location = new_location - 9;
