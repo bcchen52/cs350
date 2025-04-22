@@ -237,16 +237,18 @@ main(void)
       } else if (buf[5] >= '0' && buf[5] <= '9'){
         int pos = buf[5] - '0';
         if(pos <= max){
+          //10 to offset negative, %10 allows us to maintain position
           int new_location = (location - pos + 1 + 10) % 10;
           printf(1, "The %d command is at position %d good job", pos, new_location);
+          if(fork1() == 0)
+            runcmd(parsecmd(tokens[new_location]));
+          wait();
         } else {
           printf(1, "ur cooke");
         }
       } else {
         printf(2, "Hist command format is wrong.");
       }
-      
-      //if 10
 
       continue;
     }
