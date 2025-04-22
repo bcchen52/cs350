@@ -224,7 +224,7 @@ main(void)
     if(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't'){
       if(buf[5] == 'p'){
         for(int i = 0; i<max; i++){
-          int new_location = (location - 1 - i) % 10;
+          int new_location = (location - i) % 10;
           printf(1, "Previous command %d: %s", i+1, tokens[new_location]);
         }
       } else if (buf[6] == '0'){ //assume this is 0
