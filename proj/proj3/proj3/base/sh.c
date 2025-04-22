@@ -59,7 +59,7 @@ struct backproc bg_table[10000];
 
 char *tokens[10];
 int max = 0;
-int location = 0;
+int location = -1;
 //we start at location, and go backward?
 
 int fork1(void);  // Fork but panics on failure.
@@ -252,14 +252,14 @@ main(void)
     if(max < 10){
       max++;
     };
-    tokens[location] = malloc(strlen(buf) + 1);
-    strcpy(tokens[location], buf);
-    printf(2, "%s", tokens[location]);
     if(location<9){
       location++;
     } else {
       location = 0;
     }
+    tokens[location] = malloc(strlen(buf) + 1);
+    strcpy(tokens[location], buf);
+    //printf(2, "%s", tokens[location]);
     //loop from location backward
   
   }
