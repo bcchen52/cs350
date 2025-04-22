@@ -232,14 +232,28 @@ main(void)
           printf(1, "%d = %s\n", i+1, tokens[new_location]);
         }
       } else if (buf[6] == '0'){ //assume this is 0
-
-        int new_location = location + 9;
-        if(new_location > 9){
-          new_location = new_location - 9;
+        if (buf[5] == '1'){
+          int new_location = location + 9;
+          if(new_location > 9){
+            new_location = new_location - 9;
+          }
+          printf(1, "The %d command is at position %d good job", location, new_location);
+        } else {
+          printf(2, "Hist command format is wrong.");
         }
-        printf(2, "%s", tokens[new_location]);
+      } else if (buf[5] >= '0' && buf[5] <= '9'){
+        int pos = buf[5] - '0';
+        if(pos < max){
+          int new_location = location + 9;
+          if(new_location > 9){
+            new_location = new_location - 9;
+          }
+          printf(1, "The %d command is at position %d good job", location, new_location);
+        } else {
+          printf(1, "ur cooke");
+        }
       } else {
-        printf(2, "ur cooke");
+        printf(2, "Hist command format is wrong.");
       }
       
       //if 10
