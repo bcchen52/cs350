@@ -258,9 +258,6 @@ main(void)
       max++;
     };
     location = (location + 1) % 10;
-    if (tokens[location]) {
-      free(tokens[location]);  
-    }
     tokens[location] = malloc(strlen(buf) + 1);
     strcpy(tokens[location], buf);
     //printf(2, "%s", tokens[location]);
