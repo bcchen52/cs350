@@ -223,7 +223,6 @@ main(void)
 
     if(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't'){
       if(buf[5] == 'p'){
-        printf(2, "%d", max);
         for(int i = 0; i<max; i++){
           int new_location = location-i;
           if(new_location < 0){
@@ -244,9 +243,9 @@ main(void)
       } else if (buf[5] >= '0' && buf[5] <= '9'){
         int pos = buf[5] - '0';
         if(pos <= max){
-          int new_location = location + 9;
-          if(new_location > 9){
-            new_location = new_location - 9;
+          int new_location = location - pos - 1;
+          if(new_location < 0){
+            new_location = 10 - new_location;
           }
           printf(1, "The %d command is at position %d good job", location, new_location);
         } else {
