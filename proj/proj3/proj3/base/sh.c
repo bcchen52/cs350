@@ -60,7 +60,7 @@ struct backproc bg_table[10000];
 char *tokens[10];
 int max = 0;
 int location = -1;
-//we start at location, and go backward?
+//we start at location -1, because I increment before adding
 
 int fork1(void);  // Fork but panics on failure.
 void panic(char*);
@@ -125,7 +125,21 @@ runcmd(struct cmd *cmd)
     break;
 
   case REDIR:
-    printf(2, "Redirection Not Implemented\n");
+    struct redircmd* rcmd = (struct redircmd*) cmd;
+
+    int fd = open(rcmd->file, rcmd->mode);
+
+    if(fd<0){
+      exit();
+    }
+    dup(fd);
+
+    if(fd != rcmd->fd){
+      close(rcmd->fd);
+      dup(fd);
+    }
+    close(fd);
+    runcmd(rcmd->cmd);
     break;
 
   case LIST:
