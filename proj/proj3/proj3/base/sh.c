@@ -243,7 +243,7 @@ main(void)
       } else if (buf[5] >= '0' && buf[5] <= '9'){
         int pos = buf[5] - '0';
         if(pos <= max){
-          int new_location = location - pos - 1;
+          int new_location = location - pos + 1;
           if(new_location < 0){
             new_location = 10 - new_location;
           }
