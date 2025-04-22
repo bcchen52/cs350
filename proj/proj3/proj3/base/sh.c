@@ -130,8 +130,14 @@ runcmd(struct cmd *cmd)
 
   case LIST:
     struct listcmd *lcmd = (struct listcmd*)cmd;
-    runcmd(lcmd->left);
-    runcmd(lcmd->right);
+    if (fork() == 0){
+      runcmd(lcmd->left);
+    }
+    wait();
+    if (fork() == 0){
+      runcmd(lcmd->right);
+    }
+    wait();
     break;
 
   case PIPE:
