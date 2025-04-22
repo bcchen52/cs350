@@ -222,7 +222,7 @@ main(void)
     }
 
     if(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't'){
-      if(buf[5] == "p"){
+      if(buf[5] == 'p'){
         printf(2, "%d", max);
         for(int i = 0; i<max; i++){
           int new_location = location-i;
@@ -254,7 +254,7 @@ main(void)
     };
     tokens[location] = malloc(strlen(buf) + 1);
     strcpy(tokens[location], buf);
-    printf("%s", tokens[location]);
+    printf(2, "%s", tokens[location]);
     if(location<9){
       location++;
     } else {
