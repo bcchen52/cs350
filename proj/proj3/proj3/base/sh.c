@@ -247,7 +247,7 @@ main(void)
           if(new_location < 0){
             new_location = 10 - new_location;
           }
-          printf(1, "The %d command is at position %d good job", location, new_location);
+          printf(1, "The %d command is at position %d good job", pos, new_location);
         } else {
           printf(1, "ur cooke");
         }
