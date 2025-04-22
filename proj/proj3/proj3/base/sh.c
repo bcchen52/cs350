@@ -224,12 +224,12 @@ main(void)
     if(buf[0] == 'h' && buf[1] == 'i' && buf[2] == 's' && buf[3] == 't'){
       if(buf[5] == 'p'){
         for(int i = 0; i<max; i++){
-          int new_location = (location - i) % 10;
+          int new_location = (location - i + 10) % 10;
           printf(1, "Previous command %d: %s", i+1, tokens[new_location]);
         }
       } else if (buf[6] == '0'){ //assume this is 0
         if (buf[5] == '1'){
-          int new_location = (location - 1) % 10;
+          int new_location = (location - 1 + 10) % 10;
           printf(1, "The %d command is at position %d good job", location, new_location);
         } else {
           printf(2, "Hist command format is wrong.");
@@ -237,7 +237,7 @@ main(void)
       } else if (buf[5] >= '0' && buf[5] <= '9'){
         int pos = buf[5] - '0';
         if(pos <= max){
-          int new_location = (location - pos + 1) % 10;
+          int new_location = (location - pos + 1 + 10) % 10;
           printf(1, "The %d command is at position %d good job", pos, new_location);
         } else {
           printf(1, "ur cooke");
