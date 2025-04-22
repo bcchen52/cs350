@@ -229,7 +229,7 @@ main(void)
           if(new_location < 0){
             new_location = 10 - new_location;
           }
-          printf(2, "%d = %s", i+i, tokens[new_location]);
+          printf(1, "%d = %s\n", i+1, tokens[new_location]);
         }
       } else if (buf[6] == '0'){ //assume this is 0
 
