@@ -229,9 +229,10 @@ main(void)
           if(new_location < 0){
             new_location = 10 - new_location;
           }
-          printf(2, "%s", tokens[new_location]);
+          printf(2, "%d = %s", i+i, tokens[new_location]);
         }
       } else if (buf[6] == '0'){ //assume this is 0
+
         int new_location = location + 9;
         if(new_location > 9){
           new_location = new_location - 9;
