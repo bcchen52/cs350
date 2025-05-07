@@ -4,8 +4,6 @@
 
 int total = 0; // to record total number of messages from the two threads
 pthread_t t1, t2;
-
-int total = 0;
 int current = 0;
 char **user_args;
 int num_args;
