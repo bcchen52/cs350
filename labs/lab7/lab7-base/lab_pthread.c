@@ -38,7 +38,7 @@ void * thread_backword(void * arg) {
             pthread_mutex_unlock(&lock);
             break;
         }
-        printf("In thread 1:");
+        printf("In thread 2:");
         for (int i = num_args - 1; i >= 0; i--) {
             printf(" %s", user_args[i]);
         }
@@ -59,6 +59,8 @@ int main(int argc, char * argv[]) {
     }
 
     total = atoi(argv[1]); 
+    user_args = &argv[2];
+    num_args = argc - 2;
     
     pthread_create(&t1, NULL, thread_forward, argv + 2);
     pthread_create(&t2, NULL, thread_backword, argv + 2);
